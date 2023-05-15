@@ -39,7 +39,7 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
         return get().getUser();
     }
 
-    public static long authId() {
+    public static int authId() {
         return get().id();
     }
 

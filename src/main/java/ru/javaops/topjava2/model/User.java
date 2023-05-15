@@ -25,9 +25,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends NamedEntity implements HasIdAndEmail, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class User extends NamedEntity implements HasIdAndEmail {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email

@@ -26,7 +26,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     private static final String REST_URL_SLASH = REST_URL + '/';
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
@@ -62,7 +62,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + USER_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(userRepository.findById(USER_ID).isPresent());
+        assertFalse(repository.findById(USER_ID).isPresent());
     }
 
     @Test
@@ -108,7 +108,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.getById(USER_ID), getUpdated());
+        USER_MATCHER.assertMatch(repository.getExisted(USER_ID), getUpdated());
     }
 
     @Test
@@ -124,7 +124,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userRepository.getById(newId), newUser);
+        USER_MATCHER.assertMatch(repository.getExisted(newId), newUser);
     }
 
     @Test
@@ -145,7 +145,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertFalse(userRepository.getById(USER_ID).isEnabled());
+        assertFalse(repository.getExisted(USER_ID).isEnabled());
     }
 
     @Test
