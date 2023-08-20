@@ -3,10 +3,8 @@ package ai.polyakov.restaurant_voiting.web.restaurant;
 import ai.polyakov.restaurant_voiting.model.Restaurant;
 import ai.polyakov.restaurant_voiting.model.User;
 import ai.polyakov.restaurant_voiting.model.Vote;
-import ai.polyakov.restaurant_voiting.repository.RestaurantRepository;
 import ai.polyakov.restaurant_voiting.repository.UserRepository;
 import ai.polyakov.restaurant_voiting.repository.VoteRepository;
-import ai.polyakov.restaurant_voiting.to.DishTo;
 import ai.polyakov.restaurant_voiting.to.RestaurantTo;
 import ai.polyakov.restaurant_voiting.util.RestaurantUtil;
 import ai.polyakov.restaurant_voiting.web.AuthUser;
@@ -20,12 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 @RestController
 @RequestMapping(value = ProfileRestaurantController.PROFILE_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

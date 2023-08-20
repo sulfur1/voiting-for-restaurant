@@ -22,10 +22,10 @@ public class RestaurantUtil {
     }
 
     public static DishTo createDishTo(Dish dish) {
-        return new DishTo(dish.getName(), dish.getPrice(), dish.getDateDish());
+        return new DishTo(dish.getName(), (dish.getPrice() / 100.0), dish.getDateDish());
     }
 
-    public static Dish dishFromTo(DishTo dish) {
-        return new Dish(dish.getName(), dish.getPrice(), dish.getDateDish());
+    public static Dish dishFromTo(DishTo dishTo) {
+        return new Dish(dishTo.getName(), (long)(dishTo.getPrice() * 100), dishTo.getDateDish());
     }
 }
