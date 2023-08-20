@@ -5,11 +5,12 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "VOTE", uniqueConstraints = @UniqueConstraint(columnNames = {"date_time"}))
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "VOTE", uniqueConstraints = @UniqueConstraint(columnNames = {"vote_id", "rest_id"}))
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -17,17 +18,18 @@ import java.time.LocalDateTime;
 public class Vote {
 
     @Id
+    @Column(name = "vote_id")
     private Integer id;
 
-    @Column(name = "date_time",unique = true)
-    private LocalDateTime dateTime;
+    @Column(name = "date",unique = true)
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
     private Restaurant restaurantVote;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
     @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vote_id")
     private User user;
 }
