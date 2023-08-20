@@ -17,8 +17,16 @@ public interface VoteRepository extends BaseRepository<Vote> {
     Optional<Vote> getVoteUserByDateTime(int id, LocalDate date);
 
     @Transactional
-    default Optional<Vote> update(Restaurant restaurant, Vote vote) {
+    default Vote update(Restaurant restaurant, Vote vote) {
         vote.setRestaurantVote(restaurant);
-        return Optional.of(save(vote));
+
+        return save(vote);
+    }
+    @Transactional
+    default Vote create(Vote vote, Restaurant restaurant, User user) {
+        vote.setRestaurantVote(restaurant);
+        vote.setUser(user);
+
+        return save(vote);
     }
 }

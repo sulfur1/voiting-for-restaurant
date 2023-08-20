@@ -12,7 +12,6 @@ import java.util.List;
 
 @UtilityClass
 public class RestaurantUtil {
-
     public static LocalTime CONTROL_TIME = LocalTime.of(11, 00, 00);
     public static RestaurantTo createRestaurantTo(Restaurant restaurant) {
         return createRestaurantWithDishesTo(restaurant, Collections.emptyList());
@@ -24,5 +23,9 @@ public class RestaurantUtil {
 
     public static DishTo createDishTo(Dish dish) {
         return new DishTo(dish.getName(), dish.getPrice(), dish.getDateDish());
+    }
+
+    public static Dish dishFromTo(DishTo dish) {
+        return new Dish(dish.getName(), dish.getPrice(), dish.getDateDish());
     }
 }

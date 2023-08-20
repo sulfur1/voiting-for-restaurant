@@ -29,11 +29,8 @@ import java.util.ListIterator;
 
 @RestController
 @RequestMapping(value = ProfileRestaurantController.PROFILE_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class ProfileRestaurantController {
+public class ProfileRestaurantController extends AbstractRestaurantController {
     static final String PROFILE_REST_URL = "/api/profile/restaurants";
-
-    @Autowired
-    private RestaurantRepository restaurantRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,22 +39,7 @@ public class ProfileRestaurantController {
 
     @GetMapping
     public List<RestaurantTo> getAllRestaurantWithDishes() {
-        List<Restaurant> allRestaurants = restaurantRepository.getAllWithDishes().orElse(Collections.emptyList());
-        List<RestaurantTo> restaurantTos = new ArrayList<>();
-
-        ListIterator<Restaurant> restIterator = allRestaurants.listIterator();
-        while (restIterator.hasNext()) {
-            Restaurant restaurant = restIterator.next();
-            List<DishTo> dishesTo = restaurant.getDishes().stream()
-                    .filter(dish -> dish.getDateDish().isEqual(LocalDate.now()))
-                    .map(RestaurantUtil::createDishTo)
-                    .toList();
-
-            RestaurantTo restaurantTo = RestaurantUtil.createRestaurantWithDishesTo(restaurant, dishesTo);
-            restaurantTos.add(restaurantTo);
-        }
-
-        return restaurantTos;
+        return super.getAllRestaurantWithDishes();
     }
 
     @PostMapping("/vote")
@@ -74,12 +56,9 @@ public class ProfileRestaurantController {
                     .buildAndExpand(authUser.id()).toUri();
 
             Vote created = new Vote();
-            //created.setId(authUser.id());
-            created.setUser(user);
-            created.setRestaurantVote(restaurant);
             created.setDate(dateTime.toLocalDate());
 
-            return ResponseEntity.created(uri).body(voteRepository.save(created));
+            return ResponseEntity.created(uri).body(voteRepository.create(created, restaurant, user));
         } else if (dateTime.toLocalTime().isBefore(RestaurantUtil.CONTROL_TIME)){
             voteRepository.update(restaurant, vote);
             return ResponseEntity.status(HttpStatus.OK).build();

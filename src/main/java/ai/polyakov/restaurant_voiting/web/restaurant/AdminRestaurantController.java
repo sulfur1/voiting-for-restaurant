@@ -5,12 +5,19 @@ import ai.polyakov.restaurant_voiting.model.Dish;
 import ai.polyakov.restaurant_voiting.model.Restaurant;
 import ai.polyakov.restaurant_voiting.repository.DishRepository;
 import ai.polyakov.restaurant_voiting.repository.RestaurantRepository;
+import ai.polyakov.restaurant_voiting.to.DishTo;
+import ai.polyakov.restaurant_voiting.to.RestaurantTo;
+import ai.polyakov.restaurant_voiting.util.RestaurantUtil;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,21 +30,14 @@ import static ai.polyakov.restaurant_voiting.util.validation.ValidationUtil.chec
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-public class AdminRestaurantController {
+public class AdminRestaurantController extends AbstractRestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
-    @Autowired
-    private RestaurantRepository restaurantRepository;
     @Autowired
     private DishRepository dishRepository;
 
     @GetMapping
-    public List<Restaurant> getAllRestaurantWithDishes() {
-        List<Restaurant> allRestaurants = restaurantRepository.getAllWithDishes().orElse(Collections.emptyList());
-        return allRestaurants.isEmpty() ?
-                allRestaurants :
-                allRestaurants.stream()
-                        .filter(restaurant -> restaurant.getDishes().stream().anyMatch(dish -> dish.getDateDish().isEqual(LocalDate.now())))
-                        .collect(Collectors.toList());
+    public List<RestaurantTo> getAllRestaurantWithDishes() {
+        return super.getAllRestaurantWithDishes();
     }
 
     @GetMapping("/{id}")
@@ -46,10 +46,18 @@ public class AdminRestaurantController {
     }
 
     @PutMapping(value = "/{id}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateDishes(@RequestBody List<Dish> dishes, @PathVariable int id) {
+    public ResponseEntity<String> updateDishes(@RequestBody @Valid List<DishTo> dishesTo, @PathVariable int id, BindingResult result) {
+        if (result.hasErrors()) {
+            String errors = result.getFieldErrors().stream()
+                    .map(fieldError -> fieldError.getField() + "-" + fieldError.getDefaultMessage())
+                    .collect(Collectors.joining("\n"));
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         Restaurant restaurant = restaurantRepository.getReferenceById(id);
+        List<Dish> dishes = dishesTo.stream().map(RestaurantUtil::dishFromTo).toList();
         dishRepository.update(restaurant, dishes);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/{id}/dishes")

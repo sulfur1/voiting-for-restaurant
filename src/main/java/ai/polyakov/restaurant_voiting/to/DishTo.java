@@ -1,9 +1,9 @@
 package ai.polyakov.restaurant_voiting.to;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
 
@@ -11,9 +11,13 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 public class DishTo {
-
+    @NotBlank
+    @Size(min = 5, message = "Name`s dish must have size not less than 5")
     private String name;
 
+    @NotNull
+    @Max(value = 1000000, message = "Dish can`t to cost more than 10000 RUB")
+    @Min(value = 10000, message = "Dish can`t to cost less than 100 RUB")
     private Long price;
 
     private LocalDate dateDish;
