@@ -9,11 +9,11 @@ import java.util.List;
 public interface DishRepository extends BaseRepository<Dish> {
 
     @Transactional
-    default void update(Restaurant restaurant, List<Dish> dishes) {
+    default List<Dish> createOrUpdate(Restaurant restaurant, List<Dish> dishes) {
         dishes.forEach(dish -> {
             dish.setRestaurant(restaurant);
 
         });
-        saveAll(dishes);
+        return saveAll(dishes);
     }
 }

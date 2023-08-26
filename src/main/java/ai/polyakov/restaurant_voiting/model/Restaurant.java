@@ -11,8 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "RESTAURANT")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Restaurant extends NamedEntity {
@@ -26,6 +25,11 @@ public class Restaurant extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Vote> votes;
 
+    public Restaurant(Integer id, String name, List<Dish> dishes, List<Vote> votes) {
+        super(id, name);
+        this.dishes = dishes;
+        this.votes = votes;
+    }
 
     @Override
     public String toString() {

@@ -22,4 +22,10 @@ public class DishTo {
 
     @NotNull
     private LocalDate dateDish;
+
+
+    @Override
+    public String toString() {
+        return name + "\n" + price + "\n" + dateDish + "\n";
+    }
 }

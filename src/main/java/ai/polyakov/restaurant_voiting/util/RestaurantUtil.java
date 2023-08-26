@@ -14,11 +14,15 @@ import java.util.List;
 public class RestaurantUtil {
     public static LocalTime CONTROL_TIME = LocalTime.of(11, 00, 00);
     public static RestaurantTo createRestaurantTo(Restaurant restaurant) {
-        return createRestaurantWithDishesTo(restaurant, Collections.emptyList());
+        return createRestaurantToWithDishesTo(restaurant, Collections.emptyList());
     }
 
-    public static RestaurantTo createRestaurantWithDishesTo(Restaurant restaurant, List<DishTo> dishTos) {
+    public static RestaurantTo createRestaurantToWithDishesTo(Restaurant restaurant, List<DishTo> dishTos) {
             return  new RestaurantTo(restaurant.id(), restaurant.getName(), dishTos);
+    }
+
+    public static Restaurant createRestaurantFromTo(RestaurantTo restaurantTo) {
+        return new Restaurant(null, restaurantTo.getName(), dishListFromTo(restaurantTo.getDishes()), Collections.emptyList());
     }
 
     public static DishTo createDishTo(Dish dish) {
@@ -27,5 +31,9 @@ public class RestaurantUtil {
 
     public static Dish dishFromTo(DishTo dishTo) {
         return new Dish(dishTo.getName(), (long)(dishTo.getPrice() * 100), dishTo.getDateDish());
+    }
+
+    public static List<Dish> dishListFromTo(List<DishTo> dishTos) {
+        return dishTos.stream().map(RestaurantUtil::dishFromTo).toList();
     }
 }
