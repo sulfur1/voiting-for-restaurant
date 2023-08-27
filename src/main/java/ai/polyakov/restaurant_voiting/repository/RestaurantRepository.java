@@ -14,11 +14,11 @@ import java.util.Optional;
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
 
-    @EntityGraph(attributePaths = {"dishes"})
+    @EntityGraph(value = "restaurant-entity-graph")
     @Query("SELECT r FROM Restaurant r")
     Optional<List<Restaurant>> getAllWithDishes();
 
-    @EntityGraph(attributePaths = {"dishes"})
+    @EntityGraph(value = "restaurant-entity-graph")
     @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
     Optional<Restaurant> getRestaurantByIdWithDishes(int id);
 

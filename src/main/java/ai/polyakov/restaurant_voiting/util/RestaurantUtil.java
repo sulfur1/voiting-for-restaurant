@@ -12,13 +12,10 @@ import java.util.List;
 
 @UtilityClass
 public class RestaurantUtil {
-    public static LocalTime CONTROL_TIME = LocalTime.of(11, 00, 00);
-    public static RestaurantTo createRestaurantTo(Restaurant restaurant) {
-        return createRestaurantToWithDishesTo(restaurant, Collections.emptyList());
-    }
+    public static LocalTime CONTROL_TIME = LocalTime.of(11, 0, 0);
 
-    public static RestaurantTo createRestaurantToWithDishesTo(Restaurant restaurant, List<DishTo> dishTos) {
-            return  new RestaurantTo(restaurant.id(), restaurant.getName(), dishTos);
+    public static RestaurantTo createRestaurantToWithDishesTo(Restaurant restaurant, List<DishTo> dishTos, Integer votes) {
+            return  new RestaurantTo(restaurant.id(), restaurant.getName(), dishTos, votes);
     }
 
     public static Restaurant createRestaurantFromTo(RestaurantTo restaurantTo) {

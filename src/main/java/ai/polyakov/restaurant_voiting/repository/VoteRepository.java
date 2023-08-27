@@ -7,11 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
+
+    @Query("SELECT v FROM Vote v WHERE v.restaurantVote=:id")
+    Optional<List<Vote>> getVotesByRestId(Restaurant id);
 
     @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.date=:date")
     Optional<Vote> getVoteUserByDateTime(int id, LocalDate date);

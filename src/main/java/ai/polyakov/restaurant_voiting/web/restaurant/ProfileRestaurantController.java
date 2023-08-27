@@ -4,7 +4,6 @@ import ai.polyakov.restaurant_voiting.model.Restaurant;
 import ai.polyakov.restaurant_voiting.model.User;
 import ai.polyakov.restaurant_voiting.model.Vote;
 import ai.polyakov.restaurant_voiting.repository.UserRepository;
-import ai.polyakov.restaurant_voiting.repository.VoteRepository;
 import ai.polyakov.restaurant_voiting.to.RestaurantTo;
 import ai.polyakov.restaurant_voiting.util.RestaurantUtil;
 import ai.polyakov.restaurant_voiting.web.AuthUser;
@@ -28,14 +27,13 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private VoteRepository voteRepository;
 
     @GetMapping
     public List<RestaurantTo> getAllRestaurantWithDishes() {
         return super.getAllRestaurantWithDishes();
     }
-
+    @GetMapping("/{id}")
+    public RestaurantTo getRestaurantWithDishes(@PathVariable int id) {return super.getRestaurantWithDishes(id);}
     @PostMapping("/vote")
     @Transactional
     public ResponseEntity<Vote> vote(@RequestParam int id, @RequestParam(name = "datetime") LocalDateTime dateTime, @AuthenticationPrincipal AuthUser authUser) {
