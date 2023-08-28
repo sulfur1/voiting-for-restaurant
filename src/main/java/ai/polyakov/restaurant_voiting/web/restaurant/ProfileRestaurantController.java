@@ -1,11 +1,13 @@
 package ai.polyakov.restaurant_voiting.web.restaurant;
 
+import ai.polyakov.restaurant_voiting.error.IllegalRequestDataException;
 import ai.polyakov.restaurant_voiting.model.Restaurant;
 import ai.polyakov.restaurant_voiting.model.User;
 import ai.polyakov.restaurant_voiting.model.Vote;
 import ai.polyakov.restaurant_voiting.repository.UserRepository;
 import ai.polyakov.restaurant_voiting.to.RestaurantTo;
 import ai.polyakov.restaurant_voiting.util.RestaurantUtil;
+import ai.polyakov.restaurant_voiting.util.validation.ValidationUtil;
 import ai.polyakov.restaurant_voiting.web.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,8 +39,12 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
     public RestaurantTo getRestaurantWithDishes(@PathVariable int id) {return super.getRestaurantWithDishes(id);}
     @PostMapping("/vote")
     @Transactional
-    public ResponseEntity<Vote> vote(@RequestParam int id, @RequestParam(name = "datetime") LocalDateTime dateTime, @AuthenticationPrincipal AuthUser authUser) {
-        Restaurant restaurant = restaurantRepository.getReferenceById(id);
+    public ResponseEntity<Vote> vote(@RequestParam int id,
+                                     @RequestParam(name = "datetime") LocalDateTime dateTime,
+                                     @AuthenticationPrincipal AuthUser authUser) throws AccessDeniedException {
+        Restaurant restaurant = restaurantRepository.getExisted(id);
+        ValidationUtil.assureIdConsistent(restaurant, id);
+
         User user = userRepository.getReferenceById(authUser.id());
         URI uri;
 
@@ -55,7 +62,7 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
             voteRepository.update(restaurant, vote);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
-            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+            throw new AccessDeniedException("Your vote can't to be accepted");
         }
 
     }
