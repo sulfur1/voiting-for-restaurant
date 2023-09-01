@@ -19,16 +19,15 @@ import org.springframework.context.annotation.Configuration;
 )
 @OpenAPIDefinition(
         info = @Info(
-                title = "REST API documentation",
+                title = "REST API Application",
                 version = "1.0",
                 description = """
-                        Приложение по <a href='https://javaops.ru/view/topjava2'>курсу TopJava-2</a>: решение выпускного проекта
-                        <p><b>Тестовые креденшелы:</b><br>
-                        - user@yandex.ru / password<br>
+                        Application: voting for restaurants
+                        <p><b>Test credentials:</b><br>
                         - admin@gmail.com / admin<br>
-                        - guest@gmail.com / guest</p>
+                        - user@yandex.ru / password</p>
                         """,
-                contact = @Contact(url = "https://javaops.ru/#contacts", name = "Polyakov Alexey", email = "sulfur1917@gmail.com")
+                contact = @Contact(url = "https://t.me/Polyakov_AI", name = "Polyakov Alexey", email = "sulfur1917@gmail.com")
         ),
         security = @SecurityRequirement(name = "basicAuth")
 )

@@ -1,13 +1,12 @@
 package ai.polyakov.restaurant_voiting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -26,12 +25,13 @@ public class Dish extends NamedEntity {
     private Long price;
 
     @NotNull
-    @Column(name = "date_dish")
+    @Column(name = "date_dish", columnDefinition = "DATE")
     private LocalDate dateDish;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
     @JsonBackReference
+    @Schema(hidden = true)
     private Restaurant restaurant;
 
 

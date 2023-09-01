@@ -4,6 +4,5 @@ target
 *.iml
 log
 *.patch
-README.md
 
 /Restaurant-Voiting-soapui-project.xml

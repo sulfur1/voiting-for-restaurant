@@ -5,6 +5,11 @@ import ai.polyakov.restaurant_voiting.model.Restaurant;
 import ai.polyakov.restaurant_voiting.repository.DishRepository;
 import ai.polyakov.restaurant_voiting.to.RestaurantTo;
 import ai.polyakov.restaurant_voiting.util.validation.ValidationUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +33,27 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     @Autowired
     private DishRepository dishRepository;
 
+    @Operation(summary = "Get all restaurants with dishes", description = "The parameters specify the restaurant id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok")
+    })
     @GetMapping
     public List<RestaurantTo> getAllRestaurantWithDishes() {
         return super.getAllRestaurantWithDishes();
     }
 
-
+    @Operation(summary = "Get restaurant with dishes by id", description = "The parameters specify the restaurant id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "404", description = "Not found by id", content = @Content(schema = @Schema(hidden = true)))
+    })
     @GetMapping("/{id}")
     public RestaurantTo getRestaurantWithDishes(@PathVariable int id) {return super.getRestaurantWithDishes(id);}
 
+    @Operation(summary = "Create a new restaurant with dishes", description = "Returns a product as per the id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Create successfully")
+    })
     @PostMapping
     @Transactional
     public ResponseEntity<Restaurant> createRestaurant(@Valid @RequestBody Restaurant restaurant) {
@@ -53,6 +70,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         return ResponseEntity.created(uri).body(created);
     }
 
+    @Operation(summary = "Update dishes", description = "Update dishes by restaurant id")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateDishes(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {

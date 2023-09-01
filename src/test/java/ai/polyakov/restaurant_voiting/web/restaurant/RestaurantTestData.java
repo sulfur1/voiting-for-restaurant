@@ -2,27 +2,21 @@ package ai.polyakov.restaurant_voiting.web.restaurant;
 
 import ai.polyakov.restaurant_voiting.model.Dish;
 import ai.polyakov.restaurant_voiting.model.Restaurant;
-import ai.polyakov.restaurant_voiting.model.Vote;
 import ai.polyakov.restaurant_voiting.to.DishTo;
 import ai.polyakov.restaurant_voiting.to.RestaurantTo;
 import ai.polyakov.restaurant_voiting.util.RestaurantUtil;
 import ai.polyakov.restaurant_voiting.web.MatcherFactory;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ai.polyakov.restaurant_voiting.web.user.UserTestData.USER_ID;
-import static ai.polyakov.restaurant_voiting.web.user.UserTestData.user;
 
 public class RestaurantTestData {
     public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingEqualsComparator(RestaurantTo.class);
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingEqualsComparator(Restaurant.class);
 
-    //public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm");
     public static final int RESTAURANT_1 = 1;
     public static final int RESTAURANT_2 = RESTAURANT_1 + 1;
 
@@ -47,7 +41,7 @@ public class RestaurantTestData {
     public static Restaurant restaurant_1 = new Restaurant(RESTAURANT_1, "Koza", List.of(dish_1, dish_2, dish_3, dish_4), null);
     public static Restaurant restaurant_2 = new Restaurant(RESTAURANT_2, "PizzaHut", List.of(dish_5, dish_6, dish_7, dish_8), null);
 
-    //public static Vote voteUserRest_1 = new Vote(USER_ID, LocalDate.now(), restaurant_1, user);
+
     public static Restaurant getNew() {
         return new Restaurant(null, "Bistro", List.of(dish_9, dish_10, dish_11), null);
     }
@@ -57,7 +51,6 @@ public class RestaurantTestData {
             add(update_dish_2);
             add(update_dish_3);
         }};
-
         return new Restaurant(RESTAURANT_1, "Koza", dishes, null);
     }
 
@@ -76,14 +69,8 @@ public class RestaurantTestData {
     public static List<RestaurantTo> getAll() {
         return Stream.of(restaurant_1, restaurant_2).map(restaurant -> RestaurantUtil.createRestaurantToWithDishesTo(restaurant, dishTos(restaurant.getDishes()), 0)).toList();
     }
-
-
     public static DishTo dishTo(Dish dish) {
         return new DishTo(dish.getName(), (dish.getPrice() / 100.0), dish.getDateDish());
-    }
-
-    public static List<DishTo> dishTos(Dish... dishes) {
-        return dishTos(List.of(dishes));
     }
     public static List<DishTo> dishTos(List<Dish> dishes) {
         return dishes.stream().map(RestaurantTestData::dishTo).toList();

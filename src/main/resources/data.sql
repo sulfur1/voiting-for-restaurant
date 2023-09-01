@@ -17,11 +17,11 @@ VALUES  ('Koza'),
         ('PizzaHut');
 
 INSERT INTO DISH (name, price, rest_id, date_dish)
-VALUES ('Risotto', 56812, 1, current_timestamp),
-       ('Appetizers', 50000, 1, current_timestamp),
-       ('Cold platter', 32000, 1, current_timestamp),
-       ('Beverages', 20000, 1, current_timestamp),
-       ('Soups', 56000, 2, current_timestamp),
-       ('Meat', 50000, 2, current_timestamp),
-       ('Pizza', 80000, 2, current_timestamp),
-       ('Beverages', 20000, 2, current_timestamp);
+VALUES ('Risotto', 56812, 1, current_date),
+       ('Appetizers', 50000, 1, current_date),
+       ('Cold platter', 32000, 1, current_date),
+       ('Beverages', 20000, 1, current_date),
+       ('Soups', 56000, 2, current_date),
+       ('Meat', 50000, 2, current_date),
+       ('Pizza', 80000, 2, current_date),
+       ('Beverages', 20000, 2, current_date);
