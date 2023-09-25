@@ -37,7 +37,7 @@ spring:
 logging:
   level:
     root: WARN
-    ai.polyakov.restaurant_voiting: DEBUG
+    ai.polyakov.restaurantvoiting: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
     org.springframework.orm.jpa: DEBUG
     org.springframework.transaction: DEBUG
