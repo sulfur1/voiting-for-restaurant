@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "restaurant")
+@Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @NamedEntityGraph(
         name = "restaurant-entity-graph",
         attributeNodes = {
@@ -39,8 +39,6 @@ public class Restaurant extends NamedEntity {
     }
     public Restaurant(Integer id, String name) {
         super(id, name);
-        /*this.dishes = dishes;
-        this.votes = votes;*/
     }
 
     public Restaurant(Restaurant r) {

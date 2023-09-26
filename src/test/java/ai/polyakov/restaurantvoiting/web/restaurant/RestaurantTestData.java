@@ -33,11 +33,6 @@ public class RestaurantTestData {
         return new Restaurant(null, "Bistro");
     }
     public static Restaurant getUpdated() {
-        List<Dish> dishes = new ArrayList<>() {{
-            add(update_dish_1);
-            add(update_dish_2);
-            add(update_dish_3);
-        }};
         return new Restaurant(RESTAURANT_1, "Koza");
     }
 
