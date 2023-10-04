@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.util.ProxyUtils;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +22,7 @@ public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(accessMode = Schema.AccessMode.WRITE_ONLY) // https://stackoverflow.com/a/28025008/548473
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected Integer id;
     @NotNull
     @Column(name = "date_time", columnDefinition = "TIMESTAMP")
@@ -43,6 +44,16 @@ public class Vote {
     public Vote(Integer id, LocalDateTime dateTime) {
         this.id = id;
         this.dateTime = dateTime;
+    }
+
+    public int id() {
+        Assert.notNull(id, "Entity must have id");
+        return id;
+    }
+
+
+    public boolean isNew() {
+        return id == null;
     }
 
     @Override

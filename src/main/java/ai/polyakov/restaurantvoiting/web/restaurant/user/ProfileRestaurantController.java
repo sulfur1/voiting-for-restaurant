@@ -23,6 +23,7 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
     })
     @GetMapping
     public List<RestaurantTo> getAll() {
+        log.info("getAll restaurants");
         return super.getAllRestaurant();
     }
 
@@ -32,6 +33,9 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
             @ApiResponse(responseCode = "404", description = "Not found by id", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping("/{id}")
-    public RestaurantTo getRestaurant(@PathVariable int id) {return super.getRestaurantById(id);}
+    public RestaurantTo getRestaurant(@PathVariable int id) {
+        log.info("get restaurant by id: {}", id);
+        return super.getRestaurantById(id);
+    }
 
 }

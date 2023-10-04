@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import ai.polyakov.restaurantvoiting.model.Restaurant;
 import ai.polyakov.restaurantvoiting.repository.RestaurantRepository;
 import ai.polyakov.restaurantvoiting.util.JsonUtil;
-import ai.polyakov.restaurantvoiting.web.AbstractControllerTest;
 import ai.polyakov.restaurantvoiting.web.user.UserTestData;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -127,7 +125,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(ADMIN_REST_URL + "/" + NOT_FOUND))
+        perform(MockMvcRequestBuilders.delete(ADMIN_REST_URL + "/" + RESTAURANT_NOT_FOUND))
                 .andExpect(status().isNotFound());
     }
 }

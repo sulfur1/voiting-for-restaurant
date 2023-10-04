@@ -11,14 +11,4 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
-
-    @EntityGraph(value = "restaurant-entity-graph")
-    @Query("SELECT r FROM Restaurant r")
-    Optional<List<Restaurant>> getAllWithDishes();
-
-    @EntityGraph(value = "restaurant-entity-graph")
-    @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
-    Optional<Restaurant> getRestaurantByIdWithDishes(int id);
-
-
 }

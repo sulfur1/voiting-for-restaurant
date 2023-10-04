@@ -43,6 +43,9 @@ public class Dish extends NamedEntity {
         this.dateDish = dateDish;
     }
 
+    public Dish(Dish dish) {
+        this(dish.id(), dish.getName(), dish.getPrice(), dish.getDateDish());
+    }
     @Override
     public String toString() {
         return "Dish:" + name + " " + price;

@@ -43,7 +43,12 @@ public class AdminDishController {
         log.info("Get dishes by all time");
         return RestaurantUtil.dishTos(dishRepository.findAllByRestaurant_Id(restId));
     }
-
+    @Operation(summary = "Get dish by id")
+    @GetMapping("/{dish_id}")
+    public DishTo get(@PathVariable(name = "rest_id") int restId, @PathVariable(name = "dish_id") int id) {
+        log.info("Get dish by id");
+        return RestaurantUtil.createDishTo(dishRepository.findByIdAndRestaurantId(id, restId).orElseThrow(() -> new NotFoundException("Dish with id " + id + " not found!")));
+    }
     @Operation(summary = "Create a new dish", description = "Returns a product created")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Create successfully")
@@ -79,7 +84,7 @@ public class AdminDishController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void delete(@PathVariable(name = "rest_id") int restId, @PathVariable(name = "dish_id") int dishId) {
-        restaurantRepository.findById(restId).orElseThrow(() -> new NotFoundException("Restaurant not found"));
+        dishRepository.findByIdAndRestaurantId(dishId, restId).orElseThrow(() -> new NotFoundException("Restaurant not found"));
         dishRepository.deleteExisted(dishId);
     }
 }

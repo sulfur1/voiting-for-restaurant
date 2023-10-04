@@ -1,5 +1,6 @@
 package ai.polyakov.restaurantvoiting.web.restaurant.user;
 
+import ai.polyakov.restaurantvoiting.error.NotFoundException;
 import ai.polyakov.restaurantvoiting.repository.DishRepository;
 import ai.polyakov.restaurantvoiting.to.DishTo;
 import ai.polyakov.restaurantvoiting.util.RestaurantUtil;
@@ -37,6 +38,7 @@ public class ProfileDishController {
     @Operation(summary = "Get dish by id", description = "Specify parameters by dish id")
     @GetMapping("/{dish_id}")
     public DishTo getDishById(@PathVariable(value = "rest_id") int restId, @PathVariable(value = "dish_id") int dishId) {
-        return RestaurantUtil.createDishTo(dishRepository.getExisted(dishId));
+        log.info("Get dish by restaurant id: {} and dish id: {}", restId, dishId);
+        return RestaurantUtil.createDishTo(dishRepository.findByIdAndRestaurantId(dishId, restId).orElseThrow(() -> new NotFoundException("Dish with id " + dishId + " not found!")));
     }
 }

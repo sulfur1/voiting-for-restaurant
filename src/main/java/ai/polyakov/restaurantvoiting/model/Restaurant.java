@@ -13,13 +13,6 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-@NamedEntityGraph(
-        name = "restaurant-entity-graph",
-        attributeNodes = {
-                @NamedAttributeNode(value = "dishes")
-        }
-
-)
 public class Restaurant extends NamedEntity {
 
     //@NotNull

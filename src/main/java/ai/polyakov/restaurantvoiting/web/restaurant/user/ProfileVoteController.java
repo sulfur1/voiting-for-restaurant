@@ -30,9 +30,9 @@ import java.time.LocalTime;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = ProfileVoteController.REST_VOTE_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ProfileVoteController.PROFILE_REST_VOTE_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileVoteController {
-    public static final String REST_VOTE_URL = "api/profile/vote";
+    public static final String PROFILE_REST_VOTE_URL = "/api/profile/vote";
 
     public static final LocalTime CONTROL_TIME = LocalTime.of(11, 0, 0);
 
@@ -47,6 +47,7 @@ public class ProfileVoteController {
 
     @GetMapping
     public Vote getVoteToday(@AuthenticationPrincipal AuthUser authUser) {
+        log.info("get vote today if exist");
         LocalDate dateNow = LocalDate.now();
         return getVote(authUser.id(), dateNow).orElseThrow(() -> new NotFoundException("Vote doesnt find today"));
     }
@@ -62,13 +63,14 @@ public class ProfileVoteController {
         User userRef = userRepository.getReferenceById(authUser.id());
         Vote vote = getVote(authUser.id(), dateTimeNow.toLocalDate()).orElse(null);
         if (vote == null) {
+            log.info("create vote");
             Restaurant restaurantRef = restaurantRepository.getReferenceById(restId);
             Vote created = new Vote(dateTimeNow);
             created.setRestaurant(restaurantRef);
             created.setUser(userRef);
 
             URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(REST_VOTE_URL + "/{rest_id}")
+                    .path(PROFILE_REST_VOTE_URL + "/{rest_id}")
                     .buildAndExpand(restId).toUri();
 
             return ResponseEntity.created(uri).body(voteRepository.save(created));
@@ -86,7 +88,8 @@ public class ProfileVoteController {
         LocalDateTime dateTimeNow = LocalDateTime.now();
         Vote vote = getVote(authUser.id(), dateTimeNow.toLocalDate()).orElse(null);
         if (vote != null) {
-            if (vote.getDateTime().toLocalTime().isBefore(CONTROL_TIME)) {
+            if (dateTimeNow.toLocalTime().isBefore(CONTROL_TIME)) {
+                log.info("update vote");
                 Restaurant restaurantRef = restaurantRepository.getReferenceById(restId);
                 vote.setRestaurant(restaurantRef);
                 vote.setDateTime(dateTimeNow);
