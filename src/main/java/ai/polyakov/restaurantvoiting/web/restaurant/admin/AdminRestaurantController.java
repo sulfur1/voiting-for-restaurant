@@ -47,7 +47,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         return super.getRestaurantById(id);
     }
 
-    @Operation(summary = "Create a new restaurant", description = "Returns a product created")
+    @Operation(summary = "Create a new restaurant", description = "Returns a restaurant created")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Create successfully")
     })
@@ -65,7 +65,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         return ResponseEntity.created(uri).body(created);
     }
 
-    @Operation(summary = "Update dishes", description = "Update dishes by restaurant id")
+    @Operation(summary = "Update restaurant", description = "Update restaurant by id")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
@@ -74,7 +74,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
         restaurantRepository.save(restaurant);
     }
 
-    @Operation(summary = "Delete restaurant by id", description = "Specify parameters - dish id")
+    @Operation(summary = "Delete restaurant by id", description = "Specify parameters - restaurant id")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

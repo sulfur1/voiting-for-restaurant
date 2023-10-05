@@ -85,21 +85,19 @@ public class ProfileVoteController {
     @Transactional
     public void update(@PathVariable(value = "rest_id") int restId,
                        @AuthenticationPrincipal AuthUser authUser) {
+        Vote vote = getVoteToday(authUser);
         LocalDateTime dateTimeNow = LocalDateTime.now();
-        Vote vote = getVote(authUser.id(), dateTimeNow.toLocalDate()).orElse(null);
-        if (vote != null) {
-            if (dateTimeNow.toLocalTime().isBefore(CONTROL_TIME)) {
-                log.info("update vote");
-                Restaurant restaurantRef = restaurantRepository.getReferenceById(restId);
-                vote.setRestaurant(restaurantRef);
-                vote.setDateTime(dateTimeNow);
-                voteRepository.save(vote);
-            } else {
-                throw new AccessVoteException("Access forbidden. The time for re-voting has been exceeded");
-            }
+
+        if (dateTimeNow.toLocalTime().isBefore(CONTROL_TIME)) {
+            log.info("update vote");
+            Restaurant restaurantRef = restaurantRepository.getReferenceById(restId);
+            vote.setRestaurant(restaurantRef);
+            vote.setDateTime(dateTimeNow);
+            voteRepository.save(vote);
         } else {
-            throw new AccessVoteException("Update vote cant, because vote does`t exist");
+            throw new AccessVoteException("Access forbidden. The time for re-voting has been exceeded");
         }
+
     }
 
     private Optional<Vote> getVote(int userId, LocalDate now) {

@@ -51,11 +51,6 @@ public class Vote {
         return id;
     }
 
-
-    public boolean isNew() {
-        return id == null;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
