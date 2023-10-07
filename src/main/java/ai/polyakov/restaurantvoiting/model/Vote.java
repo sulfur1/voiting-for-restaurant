@@ -41,6 +41,7 @@ public class Vote {
     public Vote(LocalDateTime dateTime) {
         this(null, dateTime);
     }
+
     public Vote(Integer id, LocalDateTime dateTime) {
         this.id = id;
         this.dateTime = dateTime;

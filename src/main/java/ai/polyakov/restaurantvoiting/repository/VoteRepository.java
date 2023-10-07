@@ -14,8 +14,6 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
-
-
     @Query("SELECT v FROM Vote v WHERE v.user.id=:user_id AND v.dateTime BETWEEN :start AND :end")
     Optional<Vote> getVoteUserByDateTime(@Param(value = "user_id") int userId, LocalDateTime start, LocalDateTime end);
 

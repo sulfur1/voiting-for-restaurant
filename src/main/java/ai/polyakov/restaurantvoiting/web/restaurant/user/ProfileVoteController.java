@@ -51,6 +51,7 @@ public class ProfileVoteController {
         LocalDate dateNow = LocalDate.now();
         return getVote(authUser.id(), dateNow).orElseThrow(() -> new NotFoundException("Vote doesnt find today"));
     }
+
     @Operation(summary = "Create vote", description = "The path variable specify the restaurant id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created vote")

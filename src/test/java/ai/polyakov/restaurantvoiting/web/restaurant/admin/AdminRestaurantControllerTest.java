@@ -24,6 +24,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
     @Test
     void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(ADMIN_REST_URL))
@@ -36,6 +37,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(ADMIN_REST_URL))
                 .andExpect(status().isForbidden());
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void getAll() throws Exception {

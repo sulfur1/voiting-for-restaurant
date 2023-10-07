@@ -27,6 +27,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Autowired
     private DishRepository dishRepository;
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void getAllByRestaurant1() throws Exception {
@@ -56,6 +57,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(DISH_TO_MATCHER.contentJson(DishTestData.dishTo(dish_1)));
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void getDishByRestaurant2() throws Exception {
@@ -73,6 +75,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void getNotFoundDishRestaurant2() throws Exception {
@@ -87,6 +90,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void createDishForRestaurant1() throws Exception {
@@ -102,6 +106,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         DISH_MATCHER.assertMatch(created, newDish);
         DISH_MATCHER.assertMatch(dishRepository.getExisted(id), newDish);
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void createInvalidDishForRestaurant1() throws Exception {
@@ -122,6 +127,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void updateDishForRestaurant1() throws Exception {
@@ -135,6 +141,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         DISH_MATCHER.assertMatch(dishRepository.getExisted(DISH_1_RESTAURANT_1), newDish);
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void updateInvalidDishForRestaurant1() throws Exception {
@@ -147,6 +154,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void deleteDish() throws Exception {
@@ -154,6 +162,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
         assertFalse(dishRepository.findById(DISH_1_RESTAURANT_1).isPresent());
     }
+
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void deleteNotFoundDish() throws Exception {

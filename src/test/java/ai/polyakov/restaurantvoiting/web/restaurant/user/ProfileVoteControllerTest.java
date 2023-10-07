@@ -7,6 +7,7 @@ import ai.polyakov.restaurantvoiting.util.TimeUtil;
 import ai.polyakov.restaurantvoiting.web.AbstractControllerTest;
 import ai.polyakov.restaurantvoiting.web.restaurant.RestaurantTestData;
 import ai.polyakov.restaurantvoiting.web.user.UserTestData;
+import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import static ai.polyakov.restaurantvoiting.web.restaurant.user.ProfileVoteController.PROFILE_REST_VOTE_URL;
@@ -28,6 +30,7 @@ class ProfileVoteControllerTest extends AbstractControllerTest {
     private VoteRepository voteRepository;
     @Autowired
     private TimeUtil timeUtil;
+
     @Test
     @WithUserDetails(value = UserTestData.USER_MAIL)
     void getVoteToday() throws Exception {
@@ -60,6 +63,13 @@ class ProfileVoteControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        if (timeUtil.isTimeBeforeControl(now.toLocalTime())) {
+            perform(MockMvcRequestBuilders.post(PROFILE_REST_VOTE_URL + "/" + RestaurantTestData.RESTAURANT_1));
 
+            perform(MockMvcRequestBuilders.put(PROFILE_REST_VOTE_URL + "/" + RestaurantTestData.RESTAURANT_2))
+                    .andDo(print())
+                    .andExpect(status().isNoContent());
+        }
     }
 }

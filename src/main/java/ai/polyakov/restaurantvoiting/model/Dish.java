@@ -37,6 +37,7 @@ public class Dish extends NamedEntity {
     public Dish(String name, Long price, LocalDate dateDish) {
         this(null, name, price, dateDish);
     }
+
     public Dish(Integer id, String name, Long price, LocalDate dateDish) {
         super(id, name);
         this.price = price;
@@ -46,6 +47,7 @@ public class Dish extends NamedEntity {
     public Dish(Dish dish) {
         this(dish.id(), dish.getName(), dish.getPrice(), dish.getDateDish());
     }
+
     @Override
     public String toString() {
         return "Dish:" + name + " " + price;

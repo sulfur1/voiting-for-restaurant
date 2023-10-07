@@ -15,5 +15,4 @@ public class VoteTestData {
     public static final Vote vote = new Vote(3, LocalDateTime.now());
 
 
-
 }

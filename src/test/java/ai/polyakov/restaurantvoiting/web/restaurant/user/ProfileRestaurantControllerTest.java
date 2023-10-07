@@ -26,12 +26,14 @@ class ProfileRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(RESTAURANT_TO_MATCHER.contentJson(RestaurantTestData.getAll()));
     }
+
     @Test
     void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_PROFILE_DISH_URL, RESTAURANT_1))
                 .andExpect(status().isUnauthorized());
 
     }
+
     @Test
     @WithUserDetails(value = UserTestData.USER_MAIL)
     void getRestaurant() throws Exception {
@@ -41,6 +43,7 @@ class ProfileRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(RESTAURANT_TO_MATCHER.contentJson(getRestaurantTo_1()));
     }
+
     @Test
     @WithUserDetails(value = UserTestData.USER_MAIL)
     void getNotFound() throws Exception {

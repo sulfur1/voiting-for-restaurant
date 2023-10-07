@@ -35,6 +35,7 @@ public class ProfileDishController {
         log.info("Get dishes today");
         return RestaurantUtil.dishTos(dishRepository.findAllTodayByRestaurantId(restId, LocalDate.now()));
     }
+
     @Operation(summary = "Get dish by id", description = "Specify parameters by dish id")
     @GetMapping("/{dish_id}")
     public DishTo getDishById(@PathVariable(value = "rest_id") int restId, @PathVariable(value = "dish_id") int dishId) {

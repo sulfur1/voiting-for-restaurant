@@ -28,12 +28,15 @@ public class DishTestData {
     public static final Dish dish_10 = new Dish(10, "Pizza", 80000L, LocalDate.now());
     public static final Dish dish_11 = new Dish(11, "Beverages", 20000L, LocalDate.now());
     public static final Dish dish_12 = new Dish(12, "Pel`meni", 10100L, LocalDate.of(2023, 7, 26));
+
     public static Dish getNew() {
         return new Dish("Fry", 1000L, LocalDate.now());
     }
+
     public static DishTo dishTo(Dish dish) {
         return new DishTo(dish.id(), dish.getName(), dish.getPrice(), dish.getDateDish());
     }
+
     public static List<DishTo> dishTos(List<Dish> dishes) {
         return dishes.stream().map(DishTestData::dishTo).toList();
     }
@@ -41,9 +44,11 @@ public class DishTestData {
     public static List<Dish> dishesAllByRestaurant1() {
         return List.of(dish_1, dish_2, dish_3, dish_4, dish_5, dish_6, dish_7);
     }
+
     public static List<Dish> dishesTodayByRestaurant1() {
         return List.of(dish_1, dish_2, dish_3, dish_4);
     }
+
     public static List<Dish> dishesByRestaurant2() {
         return List.of(dish_8, dish_9, dish_10, dish_11, dish_12);
     }

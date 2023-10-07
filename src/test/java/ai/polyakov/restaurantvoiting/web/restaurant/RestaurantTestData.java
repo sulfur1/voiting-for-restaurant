@@ -28,6 +28,7 @@ public class RestaurantTestData {
     public static RestaurantTo getRestaurantTo_1() {
         return new RestaurantTo(restaurant_1.id(), restaurant_1.getName());
     }
+
     public static List<RestaurantTo> getAll() {
         return Stream.of(restaurant_1, restaurant_2).map(RestaurantUtil::createRestaurantTo).toList();
     }
