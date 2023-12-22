@@ -4,15 +4,20 @@ import ai.polyakov.restaurantvoiting.model.Vote;
 import ai.polyakov.restaurantvoiting.repository.VoteRepository;
 import ai.polyakov.restaurantvoiting.util.JsonUtil;
 import ai.polyakov.restaurantvoiting.util.TimeUtil;
-import ai.polyakov.restaurantvoiting.web.AbstractControllerTest;
 import ai.polyakov.restaurantvoiting.web.restaurant.RestaurantTestData;
 import ai.polyakov.restaurantvoiting.web.user.UserTestData;
-import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
@@ -24,12 +29,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-class ProfileVoteControllerTest extends AbstractControllerTest {
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class ProfileVoteControllerTest {
     @Autowired
     private VoteRepository voteRepository;
     @Autowired
     private TimeUtil timeUtil;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    protected ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
+        return mockMvc.perform(builder);
+    }
 
     @Test
     @WithUserDetails(value = UserTestData.USER_MAIL)
@@ -62,6 +77,7 @@ class ProfileVoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithUserDetails(value = UserTestData.USER_MAIL)
     void update() throws Exception {
         LocalDateTime now = LocalDateTime.now();
         if (timeUtil.isTimeBeforeControl(now.toLocalTime())) {

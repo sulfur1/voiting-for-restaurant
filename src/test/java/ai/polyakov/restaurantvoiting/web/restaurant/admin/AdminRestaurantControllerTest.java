@@ -109,7 +109,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void updateInvalid() throws Exception {
         Restaurant updated = new Restaurant(restaurant_1);
-        updated.setName("CoolRest");
+        updated.setName("C");
         perform(MockMvcRequestBuilders.put(ADMIN_REST_URL + "/" + RESTAURANT_1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))

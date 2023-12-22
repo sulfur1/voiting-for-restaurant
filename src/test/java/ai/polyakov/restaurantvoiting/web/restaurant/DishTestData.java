@@ -15,7 +15,7 @@ public class DishTestData {
     public static final int DISH_NOT_FOUND_RESTAURANT_1 = 8;
     public static final int DISH_NOT_FOUND_RESTAURANT_2 = 1;
     //Dishes Restaurant 1
-    public static final Dish dish_1 = new Dish(1, "Risotto", 56812L, LocalDate.now());
+    public static final Dish dish_1 = new Dish(1, "Risotto", 56812L, LocalDate.of(2023, 9, 28));
     public static final Dish dish_2 = new Dish(2, "Appetizers", 50000L, LocalDate.now());
     public static final Dish dish_3 = new Dish(3, "Cold platter", 32000L, LocalDate.now());
     public static final Dish dish_4 = new Dish(4, "Beverages", 20000L, LocalDate.now());
@@ -46,7 +46,7 @@ public class DishTestData {
     }
 
     public static List<Dish> dishesTodayByRestaurant1() {
-        return List.of(dish_1, dish_2, dish_3, dish_4);
+        return List.of(dish_2, dish_3, dish_4);
     }
 
     public static List<Dish> dishesByRestaurant2() {

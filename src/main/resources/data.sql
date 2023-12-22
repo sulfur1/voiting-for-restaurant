@@ -18,7 +18,7 @@ VALUES  ('Koza'),
         ('PizzaHut');
 
 INSERT INTO DISH (name, price, rest_id, date_dish)
-VALUES ('Risotto', 56812, 1, current_date),
+VALUES ('Risotto', 56812, 1, '2023-09-28'),
        ('Appetizers', 50000, 1, current_date),
        ('Cold platter', 32000, 1, current_date),
        ('Beverages', 20000, 1, current_date),

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,7 +48,7 @@ public class AdminDishController {
     @Operation(summary = "Get dish by id")
     @GetMapping("/{dish_id}")
     public DishTo get(@PathVariable(name = "rest_id") int restId, @PathVariable(name = "dish_id") int id) {
-        log.info("Get dish by id");
+        log.info("Get dish by {}", id);
         return RestaurantUtil.createDishTo(dishRepository.findByIdAndRestaurantId(id, restId).orElseThrow(() -> new NotFoundException("Dish with id " + id + " not found!")));
     }
 
@@ -75,6 +76,7 @@ public class AdminDishController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void update(@PathVariable(name = "rest_id") int restId, @PathVariable(name = "dish_id") int dishId, @RequestBody @Valid Dish dish) {
+        log.info("update {}", dish);
         Restaurant restaurant = restaurantRepository.findById(restId).orElseThrow(() -> new NotFoundException("Restaurant not found"));
         ValidationUtil.assureIdConsistent(dish, dishId);
         dish.setRestaurant(restaurant);
@@ -84,8 +86,9 @@ public class AdminDishController {
     @Operation(summary = "Delete dish", description = "Specify parameters - dish id")
     @DeleteMapping(value = "/{dish_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void delete(@PathVariable(name = "rest_id") int restId, @PathVariable(name = "dish_id") int dishId) {
+        log.info("Delete dish by {}", dishId);
         dishRepository.findByIdAndRestaurantId(dishId, restId).orElseThrow(() -> new NotFoundException("Restaurant not found"));
         dishRepository.deleteExisted(dishId);
     }
