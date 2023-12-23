@@ -3,6 +3,9 @@ package ai.polyakov.restaurantvoiting.web.user;
 import ai.polyakov.restaurantvoiting.model.User;
 import ai.polyakov.restaurantvoiting.util.validation.ValidationUtil;
 import jakarta.validation.Valid;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +29,7 @@ public class AdminUserController extends AbstractUserController {
     public User get(@PathVariable int id) {
         return super.get(id);
     }
-
+    @CacheEvict("users")
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -34,12 +37,13 @@ public class AdminUserController extends AbstractUserController {
         super.delete(id);
     }
 
+    @Cacheable("users")
     @GetMapping
     public List<User> getAll() {
         log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
-
+    @CacheEvict("users")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         log.info("create {}", user);
@@ -50,7 +54,7 @@ public class AdminUserController extends AbstractUserController {
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
-
+    @CacheEvict("users")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {

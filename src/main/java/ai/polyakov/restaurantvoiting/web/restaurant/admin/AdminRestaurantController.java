@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Create successfully")
     })
+    @CacheEvict(value = "restaurants", allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
@@ -67,6 +69,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
 
     @Operation(summary = "Update restaurant", description = "Update restaurant by id")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(value = "restaurants", allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
@@ -75,6 +78,7 @@ public class AdminRestaurantController extends AbstractRestaurantController {
     }
 
     @Operation(summary = "Delete restaurant by id", description = "Specify parameters - restaurant id")
+    @CacheEvict(value = "restaurants", allEntries = true)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

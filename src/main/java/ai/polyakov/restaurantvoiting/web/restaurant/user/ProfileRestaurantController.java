@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class ProfileRestaurantController extends AbstractRestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok")
     })
+    @Cacheable("restaurants")
     @GetMapping
     public List<RestaurantTo> getAll() {
         log.info("getAll restaurants");
