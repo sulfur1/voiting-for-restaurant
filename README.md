@@ -16,7 +16,23 @@ If it is before 11:00 we assume that he changed his mind.
 If it is after 11:00 then it is too late, vote can't be changed
 Each restaurant provides a new menu each day.
 
-As a result, provide a link to github repository. It should contain the code, README.md with API documentation and couple curl commands to test it (better - link to Swagger).
+Техническое задание:
+===============================
+Спроектируйте и реализуйте REST API с использованием Hibernate/Spring/Spring MVC (предпочтительнее Spring-Boot!) без front end.
+
+Задача заключается в следующем:
+
+Создайте систему голосования для принятия решения о том, где пообедать.
+
+2 типа пользователей: администратор и обычные пользователи
+Администратор может ввести ресторан и его обеденное меню на день (обычно 2-5 позиций, только название блюда и цена)
+Меню меняется каждый день (администраторы вносят обновления)
+Пользователи могут проголосовать за ресторан, в котором они хотят пообедать сегодня
+Для каждого пользователя учитывается только один голос
+Если пользователь проголосует повторно в тот же день:
+Если это произойдет до 11:00, мы предполагаем, что он передумал.
+Если это после 11:00, значит, уже слишком поздно, голосование изменить нельзя
+Каждый ресторан каждый день предоставляет новое меню.
 
 -------------------------------------------------------------
 - Stack: [JDK 20](http://jdk.java.net/20/), Spring Boot 3.x, Lombok, H2, Caffeine Cache, SpringDoc OpenApi 2.x, Mapstruct, Liquibase
