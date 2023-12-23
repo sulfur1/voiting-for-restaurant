@@ -16,7 +16,6 @@ If it is before 11:00 we assume that he changed his mind.
 If it is after 11:00 then it is too late, vote can't be changed
 Each restaurant provides a new menu each day.
 
-#############################################################
 Техническое задание:
 ===============================
 Спроектируйте и реализуйте REST API с использованием Hibernate/Spring/Spring MVC (предпочтительнее Spring-Boot!) без front end.
